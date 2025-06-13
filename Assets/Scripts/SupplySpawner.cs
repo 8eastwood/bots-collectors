@@ -1,25 +1,51 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
+[RequireComponent(typeof(BoxCollider))]
 public class SupplySpawner : MonoBehaviour
 {
     [SerializeField] private SupplyBox _supplyBox;
-    
-    private float _delay = 2f;
+    [SerializeField] private float minStartPointX;
+    [SerializeField] private float maxStartPointX;
+    [SerializeField] private float minStartPointZ;
+    [SerializeField] private float maxStartPointZ;
+    [SerializeField] private float startPointY;
 
-    private void Update()
+    private Coroutine _spawnCoroutine;
+    private float _delay = 2f;
+    private bool _isWorking = false;
+    private int _maxSpawns = 5;
+    private int _spawns = 0;
+
+    private void Start()
     {
-        
+        StartCoroutine(SpawnSupply());
     }
 
     private IEnumerator SpawnSupply()
     {
-        Spawn();
+        WaitForSeconds wait = new WaitForSeconds(_delay);
+
+        _isWorking = true;
+
+        while (_spawns < _maxSpawns)
+        {
+            yield return wait;
+
+            Vector3 spawnPosition = new Vector3(Random.Range(minStartPointX, maxStartPointX), startPointY,
+                Random.Range(minStartPointZ, maxStartPointZ));
+
+            Spawn(spawnPosition);
+            _spawns++;
+            
+            Debug.Log(_spawns);
+        }
     }
 
-    private void Spawn()
+    private void Spawn(Vector3 spawnPosition)
     {
-        Instantiate(_supplyBox);
+        Instantiate(_supplyBox, spawnPosition, Quaternion.identity);
     }
 }
-
