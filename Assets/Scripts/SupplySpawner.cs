@@ -13,9 +13,7 @@ public class SupplySpawner : MonoBehaviour
     [SerializeField] private float maxStartPointZ;
     [SerializeField] private float startPointY;
 
-    private Coroutine _spawnCoroutine;
-    private float _delay = 2f;
-    private bool _isWorking = false;
+    // private float _delay = 0f;
     private int _maxSpawns = 5;
     private int _spawns = 0;
 
@@ -26,13 +24,11 @@ public class SupplySpawner : MonoBehaviour
 
     private IEnumerator SpawnSupply()
     {
-        WaitForSeconds wait = new WaitForSeconds(_delay);
-
-        _isWorking = true;
+        // WaitForSeconds wait = new WaitForSeconds(_delay);
 
         while (_spawns < _maxSpawns)
         {
-            yield return wait;
+            yield return null;
 
             Vector3 spawnPosition = new Vector3(Random.Range(minStartPointX, maxStartPointX), startPointY,
                 Random.Range(minStartPointZ, maxStartPointZ));
