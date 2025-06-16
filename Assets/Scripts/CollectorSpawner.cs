@@ -3,25 +3,13 @@ using System.Collections.Generic;
 using TMPro.EditorUtilities;
 using UnityEngine;
 
-public class CollectorSpawner : MonoBehaviour
+public class CollectorSpawner : PoolHandler<Collector>
 {
     [SerializeField] private float _delay;
     [SerializeField] private Transform _spawnPoint;
-    [SerializeField] private Collector _collector;
     [SerializeField] private Scanner _scanner;
 
-    private int _maxCollectors = 3;
     private int _amountOfCollectors = 0;
-
-    private void Start()
-    {
-        // if (SuppliesBeenFounded())
-        // {
-        // }
-        // StartCoroutine(SpawnCollectors());
-
-        //тут надо запуск корутины сунуть в метод который подпишется на событие сканера, при нахождении припасов вызов события сработает и запустится корутина которая заспавнит грузовики
-    }
 
     private void OnEnable()
     {
@@ -42,12 +30,23 @@ public class CollectorSpawner : MonoBehaviour
     {
         WaitForSeconds wait = new WaitForSeconds(_delay);
 
-        while (_amountOfCollectors < _maxCollectors)
+        while (_amountOfCollectors < PoolMaxSize)
         {
             yield return wait;
 
-            Instantiate(_collector, _spawnPoint.position, Quaternion.identity);
+            // Instantiate(_collector, _spawnPoint.position, Quaternion.identity);
+            
+            GetCollectorFromPool();
             _amountOfCollectors++;
         }
+    }
+
+    private void GetCollectorFromPool()
+    {
+        Collector collector = _pool.Get();
+        
+        collector.transform.position = _spawnPoint.position;
+
+        // collector.Removed += ReleaseCollector;
     }
 }

@@ -17,15 +17,13 @@ public class SupplySpawner : MonoBehaviour
     private int _maxSpawns = 5;
     private int _spawns = 0;
 
-    private void Start()
+    private void Awake()
     {
         StartCoroutine(SpawnSupply());
     }
 
     private IEnumerator SpawnSupply()
     {
-        // WaitForSeconds wait = new WaitForSeconds(_delay);
-
         while (_spawns < _maxSpawns)
         {
             yield return null;
@@ -35,8 +33,6 @@ public class SupplySpawner : MonoBehaviour
 
             Spawn(spawnPosition);
             _spawns++;
-            
-            Debug.Log(_spawns);
         }
     }
 
