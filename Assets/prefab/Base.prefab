@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 412007565894793545}
   - component: {fileID: 8177649278281525753}
   - component: {fileID: 4905595453404302628}
+  - component: {fileID: 5906924824280230164}
   m_Layer: 0
   m_Name: Base
   m_TagString: Untagged
@@ -73,9 +74,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d57d3e21a7a33564b8228aae85786c02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _prefabObject: {fileID: -7090063755705864622, guid: c72600c709a7991479519583e5a8b1c6, type: 3}
+  _poolCapacity: 3
+  _poolMaxSize: 3
   _delay: 2
   _spawnPoint: {fileID: 7466528878111819901}
-  _collector: {fileID: -7090063755705864622, guid: c72600c709a7991479519583e5a8b1c6, type: 3}
+  _scanner: {fileID: 4905595453404302628}
 --- !u!114 &4905595453404302628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,6 +90,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d868f74e15cb00447a0f4ca954deb9b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scanRadius: 76.1
+--- !u!114 &5906924824280230164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4361859825140441815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c75fbc7fea452a24c96cad5bda10bc12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4575185195104017338

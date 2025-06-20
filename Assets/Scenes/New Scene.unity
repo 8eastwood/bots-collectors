@@ -623,6 +623,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1953042906 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8177649278281525753, guid: fb33d5f0e7c63394ca514500cc171b19, type: 3}
+  m_PrefabInstance: {fileID: 9196148767127930691}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d57d3e21a7a33564b8228aae85786c02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1953042907 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5906924824280230164, guid: fb33d5f0e7c63394ca514500cc171b19, type: 3}
+  m_PrefabInstance: {fileID: 9196148767127930691}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c75fbc7fea452a24c96cad5bda10bc12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2001352610
 GameObject:
   m_ObjectHideFlags: 0
@@ -772,34 +794,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Base
       objectReference: {fileID: 0}
-    - target: {fileID: 4905595453404302628, guid: fb33d5f0e7c63394ca514500cc171b19, type: 3}
-      propertyPath: _layerMask
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4905595453404302628, guid: fb33d5f0e7c63394ca514500cc171b19, type: 3}
-      propertyPath: _scanRadius
-      value: 76.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4905595453404302628, guid: fb33d5f0e7c63394ca514500cc171b19, type: 3}
-      propertyPath: _layerMask.m_Bits
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 8177649278281525753, guid: fb33d5f0e7c63394ca514500cc171b19, type: 3}
+    - target: {fileID: 5906924824280230164, guid: fb33d5f0e7c63394ca514500cc171b19, type: 3}
       propertyPath: _scanner
       value: 
       objectReference: {fileID: 1018980105}
-    - target: {fileID: 8177649278281525753, guid: fb33d5f0e7c63394ca514500cc171b19, type: 3}
-      propertyPath: _poolMaxSize
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8177649278281525753, guid: fb33d5f0e7c63394ca514500cc171b19, type: 3}
-      propertyPath: _poolCapacity
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8177649278281525753, guid: fb33d5f0e7c63394ca514500cc171b19, type: 3}
-      propertyPath: _prefabObject
+    - target: {fileID: 5906924824280230164, guid: fb33d5f0e7c63394ca514500cc171b19, type: 3}
+      propertyPath: _collectorSpawner
       value: 
-      objectReference: {fileID: -7090063755705864622, guid: c72600c709a7991479519583e5a8b1c6, type: 3}
+      objectReference: {fileID: 1953042906}
+    - target: {fileID: 8177649278281525753, guid: fb33d5f0e7c63394ca514500cc171b19, type: 3}
+      propertyPath: _base
+      value: 
+      objectReference: {fileID: 1953042907}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

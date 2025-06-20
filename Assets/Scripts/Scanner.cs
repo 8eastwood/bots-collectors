@@ -5,16 +5,19 @@ using UnityEngine;
 
 public class Scanner : MonoBehaviour
 {
+    [SerializeField] private SupplyManager _supplyManager;
     [SerializeField] private float _scanRadius;
 
     private static int _supplyPlacementInLayers = 3;
     
     private List<Rigidbody> _collectableSupply;
     private float _delay = 4;
-    private bool isThereSupplyToCollect = false;
-    private int _targetLayer = 1 << _supplyPlacementInLayers;
+    private bool _isThereSupplyToCollect = false;
+    private int _targetLayer = 1 << _supplyPlacementInLayers; 
+    
+    public bool IsThereSupplyToCollect => _isThereSupplyToCollect;
 
-    public event Action SuppliesToCollect;
+    public event Action SuppliesFounded;
 
     private void Start()
     {
@@ -37,12 +40,13 @@ public class Scanner : MonoBehaviour
     
         if (toCollect.Count > 0)
         {
-            isThereSupplyToCollect = true;
-            SuppliesToCollect?.Invoke();
+            _isThereSupplyToCollect = true;
+            _supplyManager.GetSuppliesToCollect(toCollect);
+            SuppliesFounded?.Invoke();
         }
         else
         {
-            isThereSupplyToCollect = false;
+            _isThereSupplyToCollect = false;
         }
     
         return toCollect;
@@ -55,7 +59,7 @@ public class Scanner : MonoBehaviour
         {
             yield return wait;
 
-            if (isThereSupplyToCollect == false)
+            if (_isThereSupplyToCollect == false)
             {
                 _collectableSupply = ScanForSupplies();
             }
