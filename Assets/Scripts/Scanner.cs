@@ -9,38 +9,50 @@ public class Scanner : MonoBehaviour
     [SerializeField] private float _scanRadius;
 
     private static int _supplyPlacementInLayers = 3;
-    
-    private List<Rigidbody> _collectableSupply;
+
+    private List<SupplyBox> _collectableSupply;
     private float _delay = 4;
     private bool _isThereSupplyToCollect = false;
-    private int _targetLayer = 1 << _supplyPlacementInLayers; 
-    
+    private int _targetLayer = 1 << _supplyPlacementInLayers;
+
     public bool IsThereSupplyToCollect => _isThereSupplyToCollect;
 
     public event Action SuppliesFounded;
 
     private void Start()
     {
-        StartCoroutine(StartScanWithRate());
+        StartScan();
     }
-    
-    private List<Rigidbody> ScanForSupplies()
+
+    private void OnEnable()
+    {
+        _supplyManager.NoSuppliesLeft += StartScan;
+    }
+
+    private void OnDisable()
+    {
+        _supplyManager.NoSuppliesLeft -= StartScan;
+    }
+
+    private void StartScan()
+    {
+        StartCoroutine(ScanWithRate());
+    }
+
+    private List<SupplyBox> ScanForSupplies()
     {
         Collider[] supplies = Physics.OverlapSphere(transform.position, _scanRadius, _targetLayer);
-    
-        List<Rigidbody> toCollect = new();
-    
+
+        List<SupplyBox> toCollect = new();
+
         foreach (Collider supply in supplies)
         {
-            if (supply.attachedRigidbody != null)
-            {
-                toCollect.Add(supply.attachedRigidbody);
-            }
+            toCollect.Add(supply.GetComponent<SupplyBox>());
         }
-    
+
         if (toCollect.Count > 0)
         {
-            _isThereSupplyToCollect = true;
+            // _isThereSupplyToCollect = true;
             _supplyManager.GetSuppliesToCollect(toCollect);
             SuppliesFounded?.Invoke();
         }
@@ -48,11 +60,11 @@ public class Scanner : MonoBehaviour
         {
             _isThereSupplyToCollect = false;
         }
-    
+
         return toCollect;
     }
-    
-    private IEnumerator StartScanWithRate()
+
+    private IEnumerator ScanWithRate()
     {
         WaitForSeconds wait = new WaitForSeconds(_delay);
         while (enabled)

@@ -1,43 +1,83 @@
-using System;
 using System.Collections;
 using UnityEngine;
-using Random = UnityEngine.Random;
+// using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(BoxCollider))]
-public class SupplySpawner : MonoBehaviour
+public class SupplySpawner : PoolHandler<SupplyBox>
 {
-    [SerializeField] private SupplyBox _supplyBox;
+    [SerializeField] private SupplyManager _supplyManager;
     [SerializeField] private float minStartPointX;
     [SerializeField] private float maxStartPointX;
     [SerializeField] private float minStartPointZ;
     [SerializeField] private float maxStartPointZ;
     [SerializeField] private float startPointY;
 
-    // private float _delay = 0f;
+    private Coroutine _supplySpawnRoutine;
+    private Vector3 _spawnPoint;
     private int _maxSpawns = 5;
     private int _spawns = 0;
 
     private void Awake()
     {
-        StartCoroutine(SpawnSupply());
+        StartSpawnSupply();
+    }
+
+    private void OnEnable()
+    {
+        _supplyManager.NoSuppliesLeft += StartSpawnSupply;
+        _supplyManager.Delivered += ReleaseInPool;
+    }
+
+    private void OnDisable()
+    {
+        _supplyManager.NoSuppliesLeft -= StartSpawnSupply;
+        _supplyManager.Delivered -= ReleaseInPool;
+    }
+
+    private void StartSpawnSupply()
+    {
+        if (_supplySpawnRoutine != null)
+        {
+            StopCoroutine(_supplySpawnRoutine);
+            _spawns = 0;
+        }
+
+        _supplySpawnRoutine = StartCoroutine(SpawnSupply());
     }
 
     private IEnumerator SpawnSupply()
     {
-        while (_spawns < _maxSpawns)
+        while (enabled)
         {
             yield return null;
 
-            Vector3 spawnPosition = new Vector3(Random.Range(minStartPointX, maxStartPointX), startPointY,
-                Random.Range(minStartPointZ, maxStartPointZ));
-
-            Spawn(spawnPosition);
-            _spawns++;
+            if (_spawns < _maxSpawns)
+            {
+                GetSupplyBoxFromPool();
+                _spawns++;
+            }
         }
     }
 
-    private void Spawn(Vector3 spawnPosition)
+    // private void CreateSupply(Vector3 spawnPosition)
+    // {
+    //     Instantiate(_supplyBox, spawnPosition, Quaternion.identity);
+    // }
+
+    private Vector3 GetSpawnPoint()
     {
-        Instantiate(_supplyBox, spawnPosition, Quaternion.identity);
+        return new Vector3(Random.Range(minStartPointX, maxStartPointX), startPointY,
+            Random.Range(minStartPointZ, maxStartPointZ));
+    }
+
+    private void GetSupplyBoxFromPool()
+    {
+        SupplyBox supplyBox = _pool.Get();
+        supplyBox.transform.position = GetSpawnPoint();
+    }
+
+    private void ReleaseInPool(SupplyBox supplyBox)
+    {
+        _pool.Release(supplyBox);
     }
 }

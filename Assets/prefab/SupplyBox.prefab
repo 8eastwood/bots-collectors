@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 8561792138755298093}
   - component: {fileID: -3369272101166076876}
   m_Layer: 3
-  m_Name: Box3 Obj
+  m_Name: SupplyBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

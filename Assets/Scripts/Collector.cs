@@ -1,39 +1,83 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Collector : MonoBehaviour
 {
-    [SerializeField] private float _speed = 4;
+    [SerializeField] private ObjectHandler _objectHandler;
+    [SerializeField] private float _moveSpeed = 4;
 
-    private Rigidbody _targetSupplyBox;
+    private Coroutine _moveRoutine;
+    private SupplyBox _targetSupplyBox;
+    private DropOff _dropPoint;
+    private Vector3 _currentTarget;
+    private float _distanceToInteract = 4f;
+    
+    public SupplyBox TargetSupplyBox => _targetSupplyBox;
 
-    private void Start()
+    private void Update()
     {
-        if (_targetSupplyBox != null)
+        if (_moveRoutine != null && _targetSupplyBox.PickingObjects.IsPickedUp == false)
         {
-            StartCoroutine(Move());
+            TryToPickUp();
         }
     }
 
-    public void RecieveTargetPosition(Rigidbody target)
+    public void InitFromPool()
+    {
+        if (_targetSupplyBox != null)
+        {
+            transform.LookAt(_targetSupplyBox.transform.position);
+            MoveTo(_targetSupplyBox.transform.position);
+        }
+    }
+
+    public void RecieveTargetPosition(SupplyBox target)
     {
         _targetSupplyBox = target;
     }
 
-    private IEnumerator Move()
+    public void RecieveDropOffPosition(DropOff dropPoint)
     {
-        if (_targetSupplyBox != null)
+        _dropPoint = dropPoint;
+    }
+
+    private void MoveTo(Vector3 targetPosition)
+    {
+        _currentTarget = targetPosition;
+
+        if (_moveRoutine != null)
         {
-            Debug.Log(_targetSupplyBox);
+            StopCoroutine(_moveRoutine);
+        }
+
+        _moveRoutine = StartCoroutine(MoveToTargetRoutine());
+    }
+
+    private IEnumerator MoveToTargetRoutine()
+    {
+        if (_currentTarget != null)
+        {
             while (isActiveAndEnabled)
             {
-                transform.position = Vector3.MoveTowards(transform.position, _targetSupplyBox.transform.position,
-                    _speed * Time.deltaTime);
-                
-                Debug.Log("im riding to the" + _targetSupplyBox.transform.position);
+                transform.position = Vector3.MoveTowards(transform.position, _currentTarget,
+                    _moveSpeed * Time.deltaTime);
 
                 yield return null;
+            }
+        }
+    }
+
+    private void TryToPickUp()
+    {
+        if (Vector3.Distance(transform.position, _targetSupplyBox.transform.position) <= _distanceToInteract)
+        {
+            _objectHandler.PickUp(_targetSupplyBox);
+
+            if (_targetSupplyBox.PickingObjects.IsPickedUp)
+            {
+                transform.LookAt(_dropPoint.transform.position);
+                MoveTo(_dropPoint.transform.position);
             }
         }
     }
