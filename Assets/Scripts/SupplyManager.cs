@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class SupplyManager : MonoBehaviour
 {
+    [SerializeField] private ScoreCounter _scoreCounter;
+    
     private List<SupplyBox> _suppliesToCollect;
-    private int _deliviredSupplies = 0;
 
     public List<SupplyBox> SuppliesToCollect => _suppliesToCollect;
 
@@ -26,7 +27,6 @@ public class SupplyManager : MonoBehaviour
     {
         if (_suppliesToCollect != null)
         {
-            Debug.Log("не нулл");
             foreach (SupplyBox supply in _suppliesToCollect)
             {
                 if (supply.IsScheduled == false)
@@ -43,10 +43,7 @@ public class SupplyManager : MonoBehaviour
     {
         RemoveSupplies(supply);
         Delivered?.Invoke(supply);
-        // supply.ReleaseInPool();
-        _deliviredSupplies++;
-
-        // Debug.Log(_suppliesToCollect.Count);
+        _scoreCounter.Add();
     }
 
     private void RemoveSupplies(SupplyBox supply)

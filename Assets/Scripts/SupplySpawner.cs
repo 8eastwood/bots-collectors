@@ -1,11 +1,12 @@
 using System.Collections;
 using UnityEngine;
-// using Random = UnityEngine.Random;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(BoxCollider))]
-public class SupplySpawner : PoolHandler<SupplyBox>
+public class SupplySpawner : MonoBehaviour
 {
     [SerializeField] private SupplyManager _supplyManager;
+    [SerializeField] private SupplyBox _supplyBoxPrefab;
     [SerializeField] private float minStartPointX;
     [SerializeField] private float maxStartPointX;
     [SerializeField] private float minStartPointZ;
@@ -25,13 +26,13 @@ public class SupplySpawner : PoolHandler<SupplyBox>
     private void OnEnable()
     {
         _supplyManager.NoSuppliesLeft += StartSpawnSupply;
-        _supplyManager.Delivered += ReleaseInPool;
+        _supplyManager.Delivered += Destroy;
     }
 
     private void OnDisable()
     {
         _supplyManager.NoSuppliesLeft -= StartSpawnSupply;
-        _supplyManager.Delivered -= ReleaseInPool;
+        _supplyManager.Delivered -= Destroy;
     }
 
     private void StartSpawnSupply()
@@ -53,16 +54,16 @@ public class SupplySpawner : PoolHandler<SupplyBox>
 
             if (_spawns < _maxSpawns)
             {
-                GetSupplyBoxFromPool();
+                CreateSupply();
                 _spawns++;
             }
         }
     }
 
-    // private void CreateSupply(Vector3 spawnPosition)
-    // {
-    //     Instantiate(_supplyBox, spawnPosition, Quaternion.identity);
-    // }
+    private void CreateSupply()
+    {
+        Instantiate(_supplyBoxPrefab, GetSpawnPoint(), Quaternion.identity);
+    }
 
     private Vector3 GetSpawnPoint()
     {
@@ -70,14 +71,8 @@ public class SupplySpawner : PoolHandler<SupplyBox>
             Random.Range(minStartPointZ, maxStartPointZ));
     }
 
-    private void GetSupplyBoxFromPool()
+    private void Destroy(SupplyBox supplyBox)
     {
-        SupplyBox supplyBox = _pool.Get();
-        supplyBox.transform.position = GetSpawnPoint();
-    }
-
-    private void ReleaseInPool(SupplyBox supplyBox)
-    {
-        _pool.Release(supplyBox);
+        Destroy(supplyBox.gameObject);
     }
 }

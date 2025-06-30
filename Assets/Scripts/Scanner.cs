@@ -15,7 +15,7 @@ public class Scanner : MonoBehaviour
     private bool _isThereSupplyToCollect = false;
     private int _targetLayer = 1 << _supplyPlacementInLayers;
 
-    public bool IsThereSupplyToCollect => _isThereSupplyToCollect;
+    // public bool IsThereSupplyToCollect => _isThereSupplyToCollect;
 
     public event Action SuppliesFounded;
 
@@ -52,7 +52,6 @@ public class Scanner : MonoBehaviour
 
         if (toCollect.Count > 0)
         {
-            // _isThereSupplyToCollect = true;
             _supplyManager.GetSuppliesToCollect(toCollect);
             SuppliesFounded?.Invoke();
         }

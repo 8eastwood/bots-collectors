@@ -164,8 +164,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c817f290956e294897b9bd18769481f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _supplyBox: {fileID: -8421834809037644064, guid: 7185c7a6ff8f54e4e9de1fbb236baa71, type: 3}
+  _prefabObject: {fileID: -8421834809037644064, guid: 7185c7a6ff8f54e4e9de1fbb236baa71, type: 3}
+  _poolCapacity: 5
+  _poolMaxSize: 5
   _supplyManager: {fileID: 932928130}
+  _supplyBoxPrefab: {fileID: -8421834809037644064, guid: 7185c7a6ff8f54e4e9de1fbb236baa71, type: 3}
   minStartPointX: -35
   maxStartPointX: -25
   minStartPointZ: -30

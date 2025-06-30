@@ -27,7 +27,6 @@ public class Base : MonoBehaviour
     private void RemoveCollectors(Collector collector)
     {
         _collectorSpawner.ReleaseCollector(collector);
-        Debug.Log(collector.TargetSupplyBox);
         _supplyManager.SupplyDelivered(collector.TargetSupplyBox);
     }
 }

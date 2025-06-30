@@ -8,8 +8,8 @@ public class PoolHandler<T> : MonoBehaviour where T : MonoBehaviour
     [SerializeField] private int _poolMaxSize;
 
     protected ObjectPool<T> _pool;
-    
-    public int PoolMaxSize => _poolMaxSize;
+
+    protected int PoolMaxSize => _poolMaxSize;
 
     private void Awake()
     {

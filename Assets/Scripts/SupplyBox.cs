@@ -25,9 +25,4 @@ public class SupplyBox : MonoBehaviour
     {
         PickingObjects.PickUp(parent);
     }
-
-    // public void ReleaseInPool()
-    // {
-    //     _pool.Release(this);
-    // }
 }

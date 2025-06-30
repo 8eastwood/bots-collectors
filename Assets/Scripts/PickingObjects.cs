@@ -27,9 +27,4 @@ public class PickingObjects : MonoBehaviour
         _boxCollider.enabled = false;
         _isPickedUp = true;
     }
-
-    // public void DropOff()
-    // {
-    //     Destroy(gameObject);
-    // }
 }

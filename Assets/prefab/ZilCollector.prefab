@@ -506,7 +506,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _objectHandler: {fileID: 2475736308253317740}
-  _moveSpeed: 6
+  _moveSpeed: 10
 --- !u!54 &3475722131581043486
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -6,7 +6,6 @@ public class CollectorSpawner : PoolHandler<Collector>
     [SerializeField] private SupplyManager _supplyManager;
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private DropOff _dropOff;
-    // [SerializeField] private Base _base;
     [SerializeField] private float _delay;
 
     private Coroutine _spawnCollectorsRoutine;
@@ -29,15 +28,19 @@ public class CollectorSpawner : PoolHandler<Collector>
     {
         WaitForSeconds wait = new WaitForSeconds(_delay);
 
-        while (enabled)
+        while (_supplyManager.SuppliesToCollect != null)
         {
             yield return wait;
-
+            
             if (_amountOfCollectors < PoolMaxSize && _supplyManager.IsAnySupplyUnassigned() == false)
             {
                 TransferSupplyBoxAsTarget();
                 GetCollectorFromPool();
                 _amountOfCollectors++;
+            }
+            else
+            {
+                StopCoroutine(_spawnCollectorsRoutine);
             }
         }
     }
