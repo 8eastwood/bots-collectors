@@ -10,7 +10,7 @@ public class CollectorSpawner : PoolHandler<Collector>
 
     private Coroutine _spawnCollectorsRoutine;
     private SupplyBox _targetSupplyBox;
-    private int _currentSupplyIndex = 0;
+    // private int _currentSupplyIndex = 0;
     private int _amountOfCollectors = 0;
 
     public void StartSpawnCollectors()
@@ -28,13 +28,13 @@ public class CollectorSpawner : PoolHandler<Collector>
     {
         WaitForSeconds wait = new WaitForSeconds(_delay);
 
-        while (_supplyManager.SuppliesToCollect != null)
+        while (_supplyManager.SuppliesToDeliver != null)
         {
             yield return wait;
             
-            if (_amountOfCollectors < PoolMaxSize && _supplyManager.IsAnySupplyUnassigned() == false)
+            if (_amountOfCollectors < PoolMaxSize && _supplyManager.SuppliesToCollect != null)
             {
-                TransferSupplyBoxAsTarget();
+                _targetSupplyBox = _supplyManager.AssignTask();
                 GetCollectorFromPool();
                 _amountOfCollectors++;
             }
@@ -45,22 +45,16 @@ public class CollectorSpawner : PoolHandler<Collector>
         }
     }
 
-    private void TransferSupplyBoxAsTarget()
-    {
-        _currentSupplyIndex = (_currentSupplyIndex + 1) % _supplyManager.SuppliesToCollect.Count;
-        _targetSupplyBox = _supplyManager.SuppliesToCollect[_currentSupplyIndex];
-    }
-
     private void GetCollectorFromPool()
     {
-        if (_targetSupplyBox.IsScheduled == false)
-        {
+        // if (_targetSupplyBox.IsScheduled == false)
+        // {
             Collector collector = _pool.Get();
             collector.transform.position = _spawnPoint.position;
             collector.RecieveDropOffPosition(_dropOff);
             collector.RecieveTargetPosition(_targetSupplyBox);
-            _targetSupplyBox.SetScheduled();
+            // _targetSupplyBox.SetScheduled();
             collector.InitFromPool();
-        }
+        // }
     }
 }

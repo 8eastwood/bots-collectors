@@ -406,7 +406,6 @@ GameObject:
   - component: {fileID: 317001351016020007}
   - component: {fileID: -7090063755705864622}
   - component: {fileID: 3475722131581043486}
-  - component: {fileID: 2475736308253317740}
   - component: {fileID: -6115194638143645877}
   m_Layer: 0
   m_Name: ZilCollector
@@ -505,7 +504,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a083239dcbcebf845830466d62221fe1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _objectHandler: {fileID: 2475736308253317740}
   _moveSpeed: 10
 --- !u!54 &3475722131581043486
 Rigidbody:
@@ -534,18 +532,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &2475736308253317740
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4638836231563901097}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f662579392029a4a8b57d8f2f58e079, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &-6115194638143645877
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -10,12 +10,10 @@ public class Scanner : MonoBehaviour
 
     private static int _supplyPlacementInLayers = 3;
 
-    private List<SupplyBox> _collectableSupply;
+    private Queue<SupplyBox> _collectableSupply;
     private float _delay = 4;
     private bool _isThereSupplyToCollect = false;
     private int _targetLayer = 1 << _supplyPlacementInLayers;
-
-    // public bool IsThereSupplyToCollect => _isThereSupplyToCollect;
 
     public event Action SuppliesFounded;
 
@@ -39,15 +37,15 @@ public class Scanner : MonoBehaviour
         StartCoroutine(ScanWithRate());
     }
 
-    private List<SupplyBox> ScanForSupplies()
+    private Queue<SupplyBox> ScanForSupplies()
     {
         Collider[] supplies = Physics.OverlapSphere(transform.position, _scanRadius, _targetLayer);
 
-        List<SupplyBox> toCollect = new();
+        Queue<SupplyBox> toCollect = new();
 
         foreach (Collider supply in supplies)
         {
-            toCollect.Add(supply.GetComponent<SupplyBox>());
+            toCollect.Enqueue(supply.GetComponent<SupplyBox>());
         }
 
         if (toCollect.Count > 0)

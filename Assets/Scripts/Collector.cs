@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Collector : MonoBehaviour
 {
-    [SerializeField] private ObjectHandler _objectHandler;
     [SerializeField] private float _moveSpeed = 4;
 
     private Coroutine _moveRoutine;
@@ -17,7 +16,7 @@ public class Collector : MonoBehaviour
 
     private void Update()
     {
-        if (_moveRoutine != null && _targetSupplyBox.PickingObjects.IsPickedUp == false)
+        if (_moveRoutine != null && _targetSupplyBox.Rigidbody.isKinematic == false && _targetSupplyBox != null)
         {
             TryToPickUp();
         }
@@ -72,9 +71,9 @@ public class Collector : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, _targetSupplyBox.transform.position) <= _distanceToInteract)
         {
-            _objectHandler.PickUp(_targetSupplyBox);
+            _targetSupplyBox.OnPickUp(transform);
 
-            if (_targetSupplyBox.PickingObjects.IsPickedUp)
+            if (_targetSupplyBox.Rigidbody.isKinematic)
             {
                 transform.LookAt(_dropPoint.transform.position);
                 MoveTo(_dropPoint.transform.position);
