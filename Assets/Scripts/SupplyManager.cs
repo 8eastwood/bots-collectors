@@ -31,15 +31,28 @@ public class SupplyManager : MonoBehaviour
             _supplyToAssign = null;
         }
 
-        _supplyToAssign = _suppliesToCollect.Dequeue();
-        _suppliesToDeliver.Add(_supplyToAssign);
+        if (_suppliesToCollect.Count != 0)
+        {
+            _supplyToAssign = _suppliesToCollect.Dequeue();
+            _suppliesToDeliver.Add(_supplyToAssign);
+        }
+        else
+        {
+            return null;
+        }
 
         return _supplyToAssign;
     }
 
     public void GetSuppliesToCollect(Queue<SupplyBox> suppliesToCollect)
     {
-        _suppliesToCollect = suppliesToCollect;
+        foreach (SupplyBox supply in suppliesToCollect)
+        {
+            if (!_suppliesToCollect.Contains(supply) && !_suppliesToDeliver.Contains(supply))
+            {
+                _suppliesToCollect.Enqueue(supply);
+            }
+        }
     }
 
     public void SupplyDelivered(SupplyBox supply)
@@ -51,10 +64,11 @@ public class SupplyManager : MonoBehaviour
 
     private void RemoveSupplies(SupplyBox supply)
     {
-        // _suppliesToCollect.Remove(supply);
+        _suppliesToDeliver.Remove(supply);
 
-        if (_suppliesToCollect.Count == 0)
+        if (_suppliesToDeliver.Count == 0)
         {
+            _suppliesToDeliver = null;
             _suppliesToCollect = null;
             NoSuppliesLeft?.Invoke();
         }
