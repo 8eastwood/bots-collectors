@@ -5,14 +5,15 @@ using UnityEngine;
 
 public class Scanner : MonoBehaviour
 {
-    [SerializeField] private SupplyManager _supplyManager;
+    [SerializeField] private Storage _storage;
     [SerializeField] private float _scanRadius;
 
     private static int _supplyPlacementInLayers = 3;
 
     private Queue<SupplyBox> _collectableSupply;
+    private Coroutine _scanRoutine;
     private float _delay = 4;
-    private bool _isThereSupplyToCollect = false;
+    // private bool _isThereSupplyToCollect = false;
     private int _targetLayer = 1 << _supplyPlacementInLayers;
 
     public event Action SuppliesFounded;
@@ -24,17 +25,17 @@ public class Scanner : MonoBehaviour
 
     private void OnEnable()
     {
-        _supplyManager.NoSuppliesLeft += StartScan;
+        _storage.NoSuppliesLeft += StartScan;
     }
 
     private void OnDisable()
     {
-        _supplyManager.NoSuppliesLeft -= StartScan;
+        _storage.NoSuppliesLeft -= StartScan;
     }
 
     private void StartScan()
     {
-        StartCoroutine(ScanWithRate());
+        _scanRoutine = StartCoroutine(ScanWithRate());
     }
 
     private Queue<SupplyBox> ScanForSupplies()
@@ -50,13 +51,15 @@ public class Scanner : MonoBehaviour
 
         if (toCollect.Count > 0)
         {
-            _supplyManager.GetSuppliesToCollect(toCollect);
+            _storage.GetSuppliesToCollect(toCollect);
+            // _isThereSupplyToCollect = true;
             SuppliesFounded?.Invoke();
+            StopCoroutine(_scanRoutine);
         }
-        else
-        {
-            _isThereSupplyToCollect = false;
-        }
+        // else
+        // {
+        //     _isThereSupplyToCollect = false;
+        // }
 
         return toCollect;
     }
@@ -67,11 +70,12 @@ public class Scanner : MonoBehaviour
         while (enabled)
         {
             yield return wait;
+            Debug.Log("scanned");
 
-            if (_isThereSupplyToCollect == false)
-            {
+            // if (!_isThereSupplyToCollect)
+            // {
                 _collectableSupply = ScanForSupplies();
-            }
+            // }
         }
     }
 

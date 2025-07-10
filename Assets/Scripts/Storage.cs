@@ -2,21 +2,22 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SupplyManager : MonoBehaviour
+public class Storage : MonoBehaviour
 {
+    [SerializeField] private CollectorSpawner _collectorSpawner;
     [SerializeField] private ScoreCounter _scoreCounter;
+    [SerializeField] private Base _base;
 
     private Queue<SupplyBox> _suppliesToCollect;
     private List<SupplyBox> _suppliesToDeliver;
-
-    private int _index = 0;
+    private List<Collector> _collectors;
     private SupplyBox _supplyToAssign;
 
     public Queue<SupplyBox> SuppliesToCollect => _suppliesToCollect;
     public List<SupplyBox> SuppliesToDeliver => _suppliesToDeliver;
 
-    public Action NoSuppliesLeft;
     public Action<SupplyBox> Delivered;
+    public Action NoSuppliesLeft;
 
     private void Awake()
     {
@@ -34,6 +35,7 @@ public class SupplyManager : MonoBehaviour
         if (_suppliesToCollect.Count != 0)
         {
             _supplyToAssign = _suppliesToCollect.Dequeue();
+            // Debug.Log("к сбору " + _suppliesToCollect.Count);
             _suppliesToDeliver.Add(_supplyToAssign);
         }
         else
@@ -57,19 +59,20 @@ public class SupplyManager : MonoBehaviour
 
     public void SupplyDelivered(SupplyBox supply)
     {
-        RemoveSupplies(supply);
+         // тут припасы должны отлетать обратно в пул
+        
         Delivered?.Invoke(supply);
+        RemoveSuppliesFromCollection(supply);
         _scoreCounter.Add();
     }
 
-    private void RemoveSupplies(SupplyBox supply)
+    private void RemoveSuppliesFromCollection(SupplyBox supply)
     {
         _suppliesToDeliver.Remove(supply);
-
+        
         if (_suppliesToDeliver.Count == 0)
         {
-            _suppliesToDeliver = null;
-            _suppliesToCollect = null;
+            Debug.Log("припасы кончились");
             NoSuppliesLeft?.Invoke();
         }
     }
