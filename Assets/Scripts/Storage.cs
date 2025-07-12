@@ -59,9 +59,8 @@ public class Storage : MonoBehaviour
 
     public void SupplyDelivered(SupplyBox supply)
     {
-         // тут припасы должны отлетать обратно в пул
-        
         Delivered?.Invoke(supply);
+        Debug.Log("delivered");
         RemoveSuppliesFromCollection(supply);
         _scoreCounter.Add();
     }

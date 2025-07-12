@@ -53,7 +53,6 @@ public class CollectorSpawner : MonoBehaviour
     private IEnumerator SpawnCollectors()
     {
         WaitForSeconds wait = new WaitForSeconds(_delay);
-        Debug.Log("2");
 
         while (_storage.SuppliesToDeliver != null)
         {

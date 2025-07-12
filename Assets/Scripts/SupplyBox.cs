@@ -31,6 +31,7 @@ public class SupplyBox : MonoBehaviour
 
     public void Destroy()
     {
+        transform.SetParent(null);
         OnDestroy?.Invoke(this);
     }
 }

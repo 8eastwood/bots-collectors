@@ -81,6 +81,7 @@ public class SupplySpawner : PoolHandler<SupplyBox>
         supplyBox.Rigidbody.isKinematic = false;
         supplyBox.BoxCollider.enabled = true;
         _pool.Release(supplyBox);
+        
         _storage.Delivered -= ReleaseInPool;
     }
 }

@@ -22,7 +22,6 @@ public class Base : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("1");
         SpawnCollectors();
     }
 
