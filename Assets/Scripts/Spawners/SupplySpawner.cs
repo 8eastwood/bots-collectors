@@ -75,7 +75,7 @@ public class SupplySpawner : Spawner<SupplyBox>
     private void ReleaseInPool(SupplyBox supplyBox)
     {
         supplyBox.Rigidbody.isKinematic = false;
-        supplyBox.BoxCollider.enabled = true;
+        supplyBox.Boxcollider.enabled = true;
         Pool.Release(supplyBox);
 
         supplyBox.OnDestroy -= ReleaseInPool;

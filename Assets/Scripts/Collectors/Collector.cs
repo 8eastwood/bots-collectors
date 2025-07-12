@@ -6,14 +6,13 @@ public class Collector : MonoBehaviour
     [SerializeField] private float _moveSpeed = 4;
 
     private Coroutine _moveRoutine;
-    private SupplyBox _targetSupplyBox;
     private Transform _spawnPoint;
     private DropOff _dropPoint;
     private Vector3 _currentTarget;
     private float _distanceToInteract = 4f;
     private bool _isBusy;
 
-    public SupplyBox TargetSupplyBox => _targetSupplyBox;
+    public SupplyBox TargetSupplyBox { get; private set; }
     public bool IsBusy { get; private set; } 
 
     private void Awake()
@@ -23,7 +22,7 @@ public class Collector : MonoBehaviour
 
     private void Update()
     {
-        if (_targetSupplyBox != null && _moveRoutine != null && !_targetSupplyBox.Rigidbody.isKinematic)
+        if (TargetSupplyBox != null && _moveRoutine != null && !TargetSupplyBox.Rigidbody.isKinematic)
         {
             TryToPickUp();
         }
@@ -36,11 +35,11 @@ public class Collector : MonoBehaviour
 
     public void Init()
     {
-        if (_targetSupplyBox != null && !_isBusy)
+        if (TargetSupplyBox != null && !_isBusy)
         {
             MarkAsBusy();
-            transform.LookAt(_targetSupplyBox.transform.position);
-            MoveTo(_targetSupplyBox.transform.position);
+            transform.LookAt(TargetSupplyBox.transform.position);
+            MoveTo(TargetSupplyBox.transform.position);
         }
     }
 
@@ -54,17 +53,17 @@ public class Collector : MonoBehaviour
 
     public void RecieveTargetPosition(SupplyBox target)
     {
-        if (_targetSupplyBox != null)
+        if (TargetSupplyBox != null)
         {
-            _targetSupplyBox = null;
+            TargetSupplyBox = null;
         }
 
-        _targetSupplyBox = target;
+        TargetSupplyBox = target;
     }
 
     public void FreeFromTask()
     {
-        _targetSupplyBox = null;
+        TargetSupplyBox = null;
     }
 
     public void RecieveDropOffPosition(DropOff dropPoint)
@@ -112,11 +111,11 @@ public class Collector : MonoBehaviour
 
     private void TryToPickUp()
     {
-        if (Vector3.Distance(transform.position, _targetSupplyBox.transform.position) <= _distanceToInteract)
+        if (Vector3.Distance(transform.position, TargetSupplyBox.transform.position) <= _distanceToInteract)
         {
-            _targetSupplyBox.PickUp(transform);
+            TargetSupplyBox.PickUp(transform);
 
-            if (_targetSupplyBox.Rigidbody.isKinematic)
+            if (TargetSupplyBox.Rigidbody.isKinematic)
             {
                 transform.LookAt(_dropPoint.transform.position);
                 MoveTo(_dropPoint.transform.position);

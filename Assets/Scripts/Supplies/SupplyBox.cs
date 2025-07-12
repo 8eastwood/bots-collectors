@@ -5,28 +5,27 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 public class SupplyBox : MonoBehaviour
 {
-    private BoxCollider _boxCollider;
-    private Rigidbody _rigidbody;
     private float _offsetX = 2f;
     private float _offsetY = 2f;
     
     public Action<SupplyBox> OnDestroy;
 
-    public BoxCollider BoxCollider => _boxCollider;
-    public Rigidbody Rigidbody => _rigidbody;
+    public BoxCollider Boxcollider { get; private set; }
+    public Rigidbody Rigidbody { get; private set; }
+
 
     private void Start()
     {
-        _boxCollider = GetComponent<BoxCollider>();
-        _rigidbody = GetComponent<Rigidbody>();
+        Boxcollider = GetComponent<BoxCollider>();
+        Rigidbody = GetComponent<Rigidbody>();
     }
 
     public void PickUp(Transform parent)
     {
         transform.SetParent(parent);
         transform.position = new Vector3(parent.position.x + _offsetX, parent.position.y + _offsetY, parent.position.z);
-        _rigidbody.isKinematic = true;
-        _boxCollider.enabled = false;
+        Rigidbody.isKinematic = true;
+        Boxcollider.enabled = false;
     }
 
     public void Destroy()
