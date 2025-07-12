@@ -37,11 +37,6 @@ public class Base : MonoBehaviour
         _collisionHandler.CollectorReturned -= SetFreeFromTask;
     }
 
-    public void GetCollectors(Collector collector)
-    {
-        _busyCollectors.Add(collector);
-    }
-
     private void SpawnCollectors()
     {
         _collectorSpawner.StartSpawnCollectors();
@@ -54,9 +49,8 @@ public class Base : MonoBehaviour
         collector.FreeFromTask();
         collector.ResetToSpawnPoint();
         _freeCollectors.Add(collector);
-        _busyCollectors.Remove(collector);
 
-        if (_freeCollectors.Count != 0 && _storage.SuppliesToCollect.Count > 0)
+        if (_freeCollectors.Count != 0 && _storage.AmountOfSuppliesToCollect > 0)
         {
             AssignCollector();
         }
@@ -72,7 +66,6 @@ public class Base : MonoBehaviour
             {
                 collector.RecieveTargetPosition(_collectorSpawner.RequestToAssignTask());
                 Reassigned?.Invoke(collector);
-                _busyCollectors.Add(collector);
                 _freeCollectors.RemoveAt(i);
             }
         }

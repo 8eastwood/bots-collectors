@@ -10,11 +10,7 @@ public class Storage : MonoBehaviour
 
     private Queue<SupplyBox> _suppliesToCollect;
     private List<SupplyBox> _suppliesToDeliver;
-    private List<Collector> _collectors;
-    private SupplyBox _supplyToAssign;
-
-    public Queue<SupplyBox> SuppliesToCollect => _suppliesToCollect;
-    public List<SupplyBox> SuppliesToDeliver => _suppliesToDeliver;
+    public int AmountOfSuppliesToCollect => _suppliesToCollect.Count;
 
     public Action<SupplyBox> Delivered;
     public Action NoSuppliesLeft;
@@ -27,22 +23,19 @@ public class Storage : MonoBehaviour
 
     public SupplyBox AssignTask()
     {
-        if (_supplyToAssign != null)
-        {
-            _supplyToAssign = null;
-        }
+        SupplyBox task;
 
         if (_suppliesToCollect.Count != 0)
         {
-            _supplyToAssign = _suppliesToCollect.Dequeue();
-            _suppliesToDeliver.Add(_supplyToAssign);
+            task = _suppliesToCollect.Dequeue();
+            _suppliesToDeliver.Add(task);
         }
         else
         {
             return null;
         }
 
-        return _supplyToAssign;
+        return task;
     }
 
     public void GetSuppliesToCollect(Queue<SupplyBox> suppliesToCollect)

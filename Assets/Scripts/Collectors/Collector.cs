@@ -14,7 +14,7 @@ public class Collector : MonoBehaviour
     private bool _isBusy;
 
     public SupplyBox TargetSupplyBox => _targetSupplyBox;
-    public bool IsBusy => _isBusy;
+    public bool IsBusy { get; private set; } 
 
     private void Awake()
     {
@@ -114,7 +114,7 @@ public class Collector : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, _targetSupplyBox.transform.position) <= _distanceToInteract)
         {
-            _targetSupplyBox.OnPickUp(transform);
+            _targetSupplyBox.PickUp(transform);
 
             if (_targetSupplyBox.Rigidbody.isKinematic)
             {

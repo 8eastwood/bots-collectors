@@ -7,11 +7,11 @@ public class Spawner<T> : MonoBehaviour where T : MonoBehaviour
     [SerializeField] private int _poolCapacity;
     [SerializeField] private int _poolMaxSize;
 
-    protected ObjectPool<T> _pool;
+    protected ObjectPool<T> Pool;
 
     private void Awake()
     {
-        _pool = new ObjectPool<T>
+        Pool = new ObjectPool<T>
         (createFunc: () => Instantiate(_prefabObject),
             actionOnGet: GetFromPool,
             actionOnRelease: ReleaseInPool,

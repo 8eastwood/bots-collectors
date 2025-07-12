@@ -61,7 +61,7 @@ public class SupplySpawner : Spawner<SupplyBox>
 
     private void GetFromPool()
     {
-        SupplyBox supplyBox = _pool.Get();
+        SupplyBox supplyBox = Pool.Get();
         supplyBox.transform.position = GetSpawnPoint();
         supplyBox.OnDestroy += ReleaseInPool;
     }
@@ -76,7 +76,7 @@ public class SupplySpawner : Spawner<SupplyBox>
     {
         supplyBox.Rigidbody.isKinematic = false;
         supplyBox.BoxCollider.enabled = true;
-        _pool.Release(supplyBox);
+        Pool.Release(supplyBox);
 
         supplyBox.OnDestroy -= ReleaseInPool;
     }

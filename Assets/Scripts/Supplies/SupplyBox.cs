@@ -21,7 +21,7 @@ public class SupplyBox : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
     }
 
-    public void OnPickUp(Transform parent)
+    public void PickUp(Transform parent)
     {
         transform.SetParent(parent);
         transform.position = new Vector3(parent.position.x + _offsetX, parent.position.y + _offsetY, parent.position.z);

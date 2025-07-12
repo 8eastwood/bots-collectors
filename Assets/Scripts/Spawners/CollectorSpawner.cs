@@ -48,11 +48,11 @@ public class CollectorSpawner : MonoBehaviour
     {
         WaitForSeconds wait = new WaitForSeconds(_delay);
 
-        while (_storage.SuppliesToDeliver != null)
+        while (enabled)
         {
             yield return wait;
 
-            if (_indexOfCollectors < _amountOfCollectorsToSpawn && _storage.SuppliesToCollect != null)
+            if (_indexOfCollectors < _amountOfCollectorsToSpawn ) 
             {
                 _targetSupplyBox = RequestToAssignTask();
 
@@ -63,7 +63,6 @@ public class CollectorSpawner : MonoBehaviour
                     collector.RecieveDropOffPosition(_dropOff);
                     collector.RecieveSpawnPoint(_spawnPoints[_indexOfCollectors]);
                     SendToWork(collector);
-                    _base.GetCollectors(collector);
                     _indexOfCollectors++;
                 }
             }
