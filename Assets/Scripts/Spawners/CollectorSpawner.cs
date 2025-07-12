@@ -29,14 +29,8 @@ public class CollectorSpawner : MonoBehaviour
 
     public void StartSpawnCollectors()
     {
-        _spawnCollectorsRoutine = StartCoroutine(SpawnCollectors()); // скан кидает событие, база подписывается методом SpawnCollectors,
-                                                                     // а надо чтобы существующие коллекторы переназначались для этой задачи во второй этерации. 
+        _spawnCollectorsRoutine = StartCoroutine(SpawnCollectors()); 
     }
-
-    // public void ResetToSpawnPoint(Collector collector)
-    // {
-    //     collector.TryBackToSpawnPoint();
-    // }
 
     public SupplyBox RequestToAssignTask()
     {

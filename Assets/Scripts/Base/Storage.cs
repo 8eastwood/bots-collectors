@@ -35,7 +35,6 @@ public class Storage : MonoBehaviour
         if (_suppliesToCollect.Count != 0)
         {
             _supplyToAssign = _suppliesToCollect.Dequeue();
-            // Debug.Log("к сбору " + _suppliesToCollect.Count);
             _suppliesToDeliver.Add(_supplyToAssign);
         }
         else
@@ -60,7 +59,6 @@ public class Storage : MonoBehaviour
     public void SupplyDelivered(SupplyBox supply)
     {
         Delivered?.Invoke(supply);
-        Debug.Log("delivered");
         RemoveSuppliesFromCollection(supply);
         _scoreCounter.Add();
     }
@@ -71,7 +69,6 @@ public class Storage : MonoBehaviour
         
         if (_suppliesToDeliver.Count == 0)
         {
-            Debug.Log("припасы кончились");
             NoSuppliesLeft?.Invoke();
         }
     }

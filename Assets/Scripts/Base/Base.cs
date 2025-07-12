@@ -20,15 +20,15 @@ public class Base : MonoBehaviour
         _freeCollectors = new List<Collector>();
     }
 
-    private void Start()
-    {
-        SpawnCollectors();
-    }
-
     private void OnEnable()
     {
         _scanner.SuppliesFounded += AssignCollector;
         _collisionHandler.CollectorReturned += SetFreeFromTask;
+    }
+
+    private void Start()
+    {
+        SpawnCollectors();
     }
 
     private void OnDisable()
@@ -40,7 +40,6 @@ public class Base : MonoBehaviour
     public void GetCollectors(Collector collector)
     {
         _busyCollectors.Add(collector);
-        // Debug.Log(_busyCollectors.Count);
     }
 
     private void SpawnCollectors()
@@ -50,11 +49,10 @@ public class Base : MonoBehaviour
 
     private void SetFreeFromTask(Collector collector)
     {
-        // _collectorSpawner.ResetToSpawnPoint(collector);
         _storage.SupplyDelivered(collector.TargetSupplyBox);
         collector.TargetSupplyBox.Destroy();
         collector.FreeFromTask();
-        collector.TryBackToSpawnPoint();
+        collector.ResetToSpawnPoint();
         _freeCollectors.Add(collector);
         _busyCollectors.Remove(collector);
 
@@ -66,8 +64,6 @@ public class Base : MonoBehaviour
 
     private void AssignCollector()
     {
-        // Debug.Log(_freeCollectors.Count);
-
         for (int i = _freeCollectors.Count - 1; i >= 0; i--)
         {
             Collector collector = _freeCollectors[i];

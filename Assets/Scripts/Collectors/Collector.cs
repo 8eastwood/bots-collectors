@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Collector : MonoBehaviour
@@ -36,11 +34,6 @@ public class Collector : MonoBehaviour
         _isBusy = true;
     }
 
-    private void MarkAsFree()
-    {
-        _isBusy = false;
-    }
-
     public void Init()
     {
         if (_targetSupplyBox != null && !_isBusy)
@@ -51,7 +44,7 @@ public class Collector : MonoBehaviour
         }
     }
 
-    public void TryBackToSpawnPoint() // ренейм
+    public void ResetToSpawnPoint()
     {
         MarkAsFree();
         StopCoroutine(_moveRoutine);
@@ -74,11 +67,6 @@ public class Collector : MonoBehaviour
         _targetSupplyBox = null;
     }
 
-    // public void Destroy()
-    // {
-    //     Destroy(gameObject);
-    // }
-
     public void RecieveDropOffPosition(DropOff dropPoint)
     {
         _dropPoint = dropPoint;
@@ -87,6 +75,11 @@ public class Collector : MonoBehaviour
     public void RecieveSpawnPoint(Transform spawnPoint)
     {
         _spawnPoint = spawnPoint;
+    }
+
+    private void MarkAsFree()
+    {
+        _isBusy = false;
     }
 
     private void MoveTo(Vector3 targetPosition)

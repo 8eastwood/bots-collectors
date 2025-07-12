@@ -12,13 +12,13 @@ public class SupplyBox : MonoBehaviour
     
     public Action<SupplyBox> OnDestroy;
 
-    public Rigidbody Rigidbody => _rigidbody;
     public BoxCollider BoxCollider => _boxCollider;
+    public Rigidbody Rigidbody => _rigidbody;
 
     private void Start()
     {
-        _rigidbody = GetComponent<Rigidbody>();
         _boxCollider = GetComponent<BoxCollider>();
+        _rigidbody = GetComponent<Rigidbody>();
     }
 
     public void OnPickUp(Transform parent)

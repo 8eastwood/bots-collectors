@@ -1,15 +1,13 @@
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class PoolHandler<T> : MonoBehaviour where T : MonoBehaviour
+public class Spawner<T> : MonoBehaviour where T : MonoBehaviour
 {
     [SerializeField] private T _prefabObject;
     [SerializeField] private int _poolCapacity;
     [SerializeField] private int _poolMaxSize;
 
     protected ObjectPool<T> _pool;
-
-    protected int PoolMaxSize => _poolMaxSize;
 
     private void Awake()
     {

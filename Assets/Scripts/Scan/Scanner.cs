@@ -13,19 +13,18 @@ public class Scanner : MonoBehaviour
     private Queue<SupplyBox> _collectableSupply;
     private Coroutine _scanRoutine;
     private float _delay = 4;
-    // private bool _isThereSupplyToCollect = false;
     private int _targetLayer = 1 << _supplyPlacementInLayers;
 
     public event Action SuppliesFounded;
 
-    private void Start()
-    {
-        StartScan();
-    }
-
     private void OnEnable()
     {
         _storage.NoSuppliesLeft += StartScan;
+    }
+    
+    private void Start()
+    {
+        StartScan();
     }
 
     private void OnDisable()
@@ -52,14 +51,9 @@ public class Scanner : MonoBehaviour
         if (toCollect.Count > 0)
         {
             _storage.GetSuppliesToCollect(toCollect);
-            // _isThereSupplyToCollect = true;
             SuppliesFounded?.Invoke();
             StopCoroutine(_scanRoutine);
         }
-        // else
-        // {
-        //     _isThereSupplyToCollect = false;
-        // }
 
         return toCollect;
     }
@@ -70,17 +64,8 @@ public class Scanner : MonoBehaviour
         while (enabled)
         {
             yield return wait;
-            Debug.Log("scanned");
 
-            // if (!_isThereSupplyToCollect)
-            // {
-                _collectableSupply = ScanForSupplies();
-            // }
+            _collectableSupply = ScanForSupplies();
         }
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.DrawWireSphere(transform.position, _scanRadius);
     }
 }
